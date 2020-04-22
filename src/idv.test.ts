@@ -5,4 +5,7 @@ describe('dummy test', () => {
   test('this is always true', () => {
     expect(idv).toBeTruthy();
   });
+  test('this is always false', () => {
+    expect(null).toBeFalsy();
+  });
 });
