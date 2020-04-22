@@ -1,0 +1,32 @@
+{
+  "author": "Mark Florence",
+  "description": "TypeScript implementation of bolazec's Go code",
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^25.4.0",
+    "make-coverage-badge": "^1.2.0",
+    "prettier": "^2.0.5",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
+  },
+  "engines": {
+    "node": ">= 12"
+  },
+  "license": "MIT",
+  "name": "weighted-numbers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mflorence99/weighted-numbers"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules && rm package-lock.json && npm install",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg"
+  },
+  "version": "0.0.0"
+}
