@@ -6,12 +6,17 @@
 
 export abstract class WeightedNumber {
 
+  // NOTE: micros gives the multiplier for each unit to get the micro unit
+  private micros: Record<string,number> = { };
+
   /** ctor */
   constructor(public readonly units: readonly string[], 
               public readonly weights: Record<string,number>,
                      readonly values: Record<string,number>,
               public readonly formatters: Record<string, FormatterFn> = { }) { 
     Object.assign(this, values);
+    this.makeMicros();
+    this.denormalize();
     this.normalize();
   }
 
@@ -40,16 +45,48 @@ export abstract class WeightedNumber {
     return formatted.join(' ');
   }
 
-  /** Normalize values */
-  normalize(): void {
-    let c = 0;
+  /** Subtract another weighted number of like type from this */
+  subtract(values: Record<string, number>): void {
+    this.add(Object.keys(values).reduce((acc, cur) => {
+      acc[cur] = values[cur] * -1;
+      return acc;
+    }, { }));
+  }
+
+  // private methods
+
+  private denormalize(): void {
     this.units
-      .forEach(unit => {
-        const v = this[unit] || 0;
-        const w = this.weights[unit];
-        this[unit] = w? (v + c) % w : (v + c);
-        c = w? Math.trunc((v + c) / w) : c;
+      .filter(unit => !!this[unit])
+      .forEach((unit, ix) => {
+        if (ix > 0) {
+          const v = this[unit] * this.micros[unit];
+          this[unit] = 0;
+          this[this.units[0]] += v;
+        }
       });
+  }
+
+  private makeMicros(): void {
+    let factor = 1;
+    this.units.forEach((unit, ix, units) => {
+      if (ix > 0) {
+        const prior = units[ix - 1];
+        const w = this.weights[prior] || 1;
+        factor *= w;
+        this.micros[unit] = factor;
+      }
+    });
+  }
+
+  private normalize(): void {
+    let c = 0;
+    this.units.forEach(unit => {
+      const v = this[unit] || 0;
+      const w = this.weights[unit];
+      this[unit] = w? (v + c) % w : (v + c);
+      c = w? Math.trunc((v + c) / w) : c;
+    });
   }
 
 }
