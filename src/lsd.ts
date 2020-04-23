@@ -41,7 +41,7 @@ export class LSD extends WeightedNumber {
 
   /** ctor */
   constructor(readonly values: Values,
-    readonly formatters: Formatters = formatterfns) {
+              readonly formatters: Formatters = formatterfns) {
     super(units, weights, values, formatters);
   }
 

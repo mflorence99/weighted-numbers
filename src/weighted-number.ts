@@ -2,7 +2,7 @@
  * Base class
  */
 
- export type FormatterFn = (value: number, unit: string) => string;
+ export type FormatterFn = (value: number, unit?: string) => string;
 
 export abstract class WeightedNumber {
 
