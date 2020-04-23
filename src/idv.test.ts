@@ -27,11 +27,11 @@ describe('IDV construction', () => {
     expect(idv.gallons).toEqual(0);
     expect(idv.pecks).toEqual(2);
     expect(idv.bushels).toEqual(1);
-    expect(idv.chaldrons).toBeUndefined();
+    expect(idv.chaldrons).toEqual(0);
   });
 
   test('IDV is formatted as readble English text', () => {
-    expect(idv.format()).toEqual('1 bushels, 2 pecks, 2 quarts');
+    expect(idv.format()).toEqual('1 bushels 2 pecks 2 quarts');
   });
 
 });
@@ -46,11 +46,11 @@ describe('IDV addition', () => {
     expect(idv.gallons).toEqual(1);
     expect(idv.pecks).toEqual(0);
     expect(idv.bushels).toEqual(6);
-    expect(idv.chaldrons).toBeUndefined();
+    expect(idv.chaldrons).toEqual(0);
   });
 
   test('IDV is formatted as readble English text', () => {
-    expect(idv.format()).toEqual('6 bushels, 1 gallons, 3 quarts');
+    expect(idv.format()).toEqual('6 bushels 1 gallons 3 quarts');
   });
 
 });

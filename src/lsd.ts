@@ -2,16 +2,22 @@ import { FormatterFn } from './weighted-number';
 import { WeightedNumber } from './weighted-number';
 
 /**
- * Imperial Dry Volume implementation
+ * Pounds, shillings, pence implementation
  */
 
 // NOTE: from micro to macro
-const units = ['pints', 'quarts', 'gallons', 'pecks', 'bushels', 'chaldrons'] as const;
+const units = ['pence', 'shillings', 'pounds'] as const;
 
 type Units = typeof units[number];
 
 export type Formatters = {
   [unit in Units]?: FormatterFn;
+};
+
+const formatterfns: Formatters = {
+  pence: (value) => `${value}d`,
+  pounds: (value) => `£${value}`,
+  shillings: (value) => `${value}s`
 };
 
 type Values = {
@@ -23,25 +29,19 @@ type Weights = {
 };
 
 const weights: Weights = {
-  bushels: 36,
-  gallons: 2,
-  pecks: 4,
-  pints: 2,
-  quarts: 4
+  pence: 12,
+  shillings: 20
 };
 
-export class IDV extends WeightedNumber {
+export class LSD extends WeightedNumber {
 
-  bushels: number;
-  chaldrons: number;
-  gallons: number;
-  pecks: number;
-  pints: number;
-  quarts: number;
+  pence: number;
+  pounds: number;
+  shillings: number;
 
   /** ctor */
   constructor(readonly values: Values,
-              readonly formatters: Formatters = { }) {
+    readonly formatters: Formatters = formatterfns) {
     super(units, weights, values, formatters);
   }
 
