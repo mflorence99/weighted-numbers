@@ -1,12 +1,15 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2019, 
-    sourceType: "module" 
+    sourceType: 'module' 
   }, 
   extends: [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    'plugin:@typescript-eslint/recommended'
   ],
-  rules: { }
+  rules: { 
+    '@typescript-eslint/no-empty-function': 'off',
+    quotes: ['error', 'single'],
+    semi: ['error', 'always']
+  }
 };
