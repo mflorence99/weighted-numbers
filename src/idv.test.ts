@@ -30,7 +30,7 @@ describe('IDV construction', () => {
     expect(idv.chaldrons).toEqual(0);
   });
 
-  test('IDV is formatted as readble English text', () => {
+  test('IDV is formatted as readable English text', () => {
     expect(idv.format()).toEqual('1 bushels 2 pecks 2 quarts');
   });
 
@@ -49,7 +49,7 @@ describe('IDV addition', () => {
     expect(idv.chaldrons).toEqual(0);
   });
 
-  test('IDV is formatted as readble English text', () => {
+  test('IDV is formatted as readable English text', () => {
     expect(idv.format()).toEqual('6 bushels 1 gallons 3 quarts');
   });
 
