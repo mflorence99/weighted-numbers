@@ -1,4 +1,3 @@
-import { FormatterFn } from './weighted-number';
 import { WeightedNumber } from './weighted-number';
 
 /**
@@ -6,13 +5,9 @@ import { WeightedNumber } from './weighted-number';
  */
 
 // NOTE: from micro to macro
-const units = ['pints', 'quarts', 'gallons', 'pecks', 'bushels', 'chaldrons'] as const;
+const UNITS = ['pints', 'quarts', 'gallons', 'pecks', 'bushels', 'chaldrons'] as const;
 
-type Units = typeof units[number];
-
-export type Formatters = {
-  [unit in Units]?: FormatterFn;
-};
+type Units = typeof UNITS[number];
 
 type Values = {
   [unit in Units]?: number;
@@ -20,14 +15,6 @@ type Values = {
 
 type Weights = {
   [unit in Units]?: number;
-};
-
-const weights: Weights = {
-  bushels: 36,
-  gallons: 2,
-  pecks: 4,
-  pints: 2,
-  quarts: 4
 };
 
 export class IDV extends WeightedNumber {
@@ -39,10 +26,20 @@ export class IDV extends WeightedNumber {
   pints: number;
   quarts: number;
 
+  units = UNITS;
+
+  weights: Readonly<Weights> = {
+    bushels: 36,
+    gallons: 2,
+    pecks: 4,
+    pints: 2,
+    quarts: 4
+  };
+
   /** ctor */
-  constructor(readonly values: Values,
-              readonly formatters: Formatters = { }) {
-    super(units, weights, values, formatters);
+  constructor(values: Values | IDV = { }) {
+    super();
+    this.initialize(values);
   }
 
 }
