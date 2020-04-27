@@ -36,8 +36,18 @@ describe('IDV construction', () => {
 
 });
 
+describe('IDV equality', () => {
+  const idv = new IDV({ pints: 100 });
+
+  test('IDV is equal to another', () => {
+    expect(idv.isEqual({ pints: 100 })).toBeTruthy();
+    expect(idv.isEqual({ quarts: 50 })).toBeTruthy();
+  });
+
+});
+
 describe('Zero IDV', () => {
-  const idv = new IDV();
+  const idv = new IDV({ });
 
   test('Values have been normalized', () => {
     expect(idv.pints).toEqual(0);
@@ -91,19 +101,20 @@ describe('Decimal IDV', () => {
 });
 
 describe('IDV addition', () => {
-  const idv = new IDV({ pints: 100 }).add({ quarts: 5, pecks: 18 });
+  const idv = new IDV({ pints: 100 })
+    .add({ quarts: 5, pecks: 18 });
 
   test('Values have been normalized', () => {
     expect(idv.pints).toEqual(0);
     expect(idv.quarts).toEqual(3);
     expect(idv.gallons).toEqual(1);
     expect(idv.pecks).toEqual(0);
-    expect(idv.bushels).toEqual(7);
+    expect(idv.bushels).toEqual(6);
     expect(idv.chaldrons).toEqual(0);
   });
 
   test('IDV is formatted as readable English text', () => {
-    expect(idv.format()).toEqual('7 bushels, 1 gallons, 3 quarts');
+    expect(idv.format()).toEqual('6 bushels, 1 gallons, 3 quarts');
   });
 
 });

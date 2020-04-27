@@ -31,7 +31,7 @@ export class LSD extends WeightedNumber {
   };
 
   /** ctor */
-  constructor(values: Values | LSD = { }) {
+  constructor(values: Values | LSD) {
     super();
     this.initialize(values);
   }
@@ -46,7 +46,8 @@ export class LSD extends WeightedNumber {
       const pence = Math.abs(this.pence);
       let formatted;
       // TODO: we could do much better than this
-      if (!this.isNegative() && (pounds < 5) && (shillings > 0))
+      // NOTE: "retail" format for "small" values like 32/6
+      if (this.isPositive() && (pounds < 5))
         formatted = `${(pounds * 20) + shillings}/${pence? pence : '-'}`;
       else formatted = `£${pounds} ${shillings}s ${pence}d`;
       if (this.isNegative())

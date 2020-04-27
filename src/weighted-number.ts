@@ -12,11 +12,16 @@ export abstract class WeightedNumber {
   abstract weights: Readonly<Record<string, number>>;
 
   /** Add another weighted number of like type to this */
-  add(values: Values): this {
-    const a = this.denormalize();
-    const b = this.clone(values).denormalize();
-    const micro = this.units[0];
+  add(another: Values): this {
+    const { a, b, micro } = this.precompare(another);
     a[micro] += b[micro];
+    return a.normalize() as any;
+  }
+
+  /** Divide this weighted number by a scalar quantity */
+  divide(factor: number): this {
+    const { a, micro } = this.precompare();
+    a[micro] /= factor;
     return a.normalize() as any;
   }
 
@@ -35,6 +40,24 @@ export abstract class WeightedNumber {
     }
   }
 
+  /** Is this weighted number equal to another of like type */
+  isEqual(another: Values): boolean {
+    const { a, b, micro } = this.precompare(another);
+    return a[micro] === b[micro];
+  }
+
+  /** Is this weighted number greater than another of like type */
+  isGreater(another: Values): boolean {
+    const { a, b, micro } = this.precompare(another);
+    return a[micro] > b[micro];
+  }
+
+  /** Is this weighted number less than another of like type */
+  isLess(another: Values): boolean {
+    const { a, b, micro } = this.precompare(another);
+    return a[micro] < b[micro];
+  }
+
   /** Is this weighted number negative? */
   isNegative(): boolean {
     return this.units
@@ -42,6 +65,10 @@ export abstract class WeightedNumber {
       .some(value => value < 0);
   }
 
+  /** Is this weighted number positive? */
+  isPositive(): boolean {
+    return !this.isNegative();
+  }
 
   /** Is this weighted number zero? */
   isZero(): boolean {
@@ -49,7 +76,21 @@ export abstract class WeightedNumber {
       .map(unit => this[unit] || 0)
       .every(value => value === 0);
   }
-  
+
+  /** Multiply this weighted number by a scalar quantity */
+  multiply(factor: number): this {
+    const { a, micro } = this.precompare();
+    a[micro] *= factor;
+    return a.normalize() as any;
+  }
+
+  /** Subtract another weighted number of like type from this */
+  subtract(another: Values): this {
+    const { a, b, micro } = this.precompare(another);
+    a[micro] -= b[micro];
+    return a.normalize() as any;
+  }
+
   // protected methods
 
   protected initialize(values: Values): void {
@@ -62,7 +103,10 @@ export abstract class WeightedNumber {
   // private methods
 
   private clone(values: Values): this {
-    return Object.assign(Object.create(this), this, values); 
+    const obj = Object.assign(Object.create(this), this); 
+    // NOTE: supplied values may be sparse
+    this.units.forEach(unit => obj[unit] = values[unit] || 0);
+    return obj;
   }
 
   private denormalize(values: Values = { }): this {
@@ -107,6 +151,14 @@ export abstract class WeightedNumber {
       return acc;
     }, values);
     return this.clone(normalized);
+  }
+
+  private precompare(another: Values = { }): 
+      { a: WeightedNumber; b: WeightedNumber; micro: string } {
+    const a = this.denormalize();
+    const b = this.clone(another).denormalize();
+    const micro = this.units[0];
+    return { a, b, micro };
   }
 
 }

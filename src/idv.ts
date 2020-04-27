@@ -37,7 +37,7 @@ export class IDV extends WeightedNumber {
   };
 
   /** ctor */
-  constructor(values: Values | IDV = { }) {
+  constructor(values: Values | IDV) {
     super();
     this.initialize(values);
   }

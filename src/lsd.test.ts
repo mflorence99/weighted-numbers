@@ -26,6 +26,23 @@ describe('LSD construction', () => {
 
 });
 
+describe('LSD comparisons', () => {
+  const lsd = new LSD({ pounds: 25.25, shillings: 42.5, pence: 99 });
+
+  test('LSD is equal to another', () => {
+    expect(lsd.isEqual({ pounds: 27, shillings: 15, pence: 9 })).toBeTruthy();
+  });
+
+  test('LSD is less than another', () => {
+    expect(lsd.isLess({ pounds: 27, shillings: 15, pence: 10 })).toBeTruthy();
+  });
+
+  test('LSD is greater than another', () => {
+    expect(lsd.isGreater({ pounds: 27, shillings: 15, pence: 8 })).toBeTruthy();
+  });
+
+});
+
 describe('Zero LSD', () => {
   const lsd = new LSD({ shillings: 1, pence: -12 });
 
@@ -52,6 +69,52 @@ describe('Negative LSD', () => {
 
   test('LSD is formatted as readable English text', () => {
     expect(lsd.format()).toEqual('(£10 2s 2d)');
+  });
+
+});
+
+describe('LSD addition', () => {
+  const lsd = new LSD({ pounds: -10, shillings: -1, pence: -14 })
+    .add({ pounds: 10 });
+
+  test('Values have been normalized', () => {
+    expect(lsd.pence).toEqual(-2);
+    expect(lsd.shillings).toEqual(-2);
+    expect(lsd.pounds).toEqual(0);
+  });
+
+});
+
+describe('LSD division', () => {
+  const lsd = new LSD({ pounds: 9 }).divide(2);
+
+  test('Values have been normalized', () => {
+    expect(lsd.pence).toEqual(0);
+    expect(lsd.shillings).toEqual(10);
+    expect(lsd.pounds).toEqual(4);
+  });
+
+});
+
+describe('LSD multiplication', () => {
+  const lsd = new LSD({ pounds: 4, shillings: 10 }).multiply(2);
+
+  test('Values have been normalized', () => {
+    expect(lsd.pence).toEqual(0);
+    expect(lsd.shillings).toEqual(0);
+    expect(lsd.pounds).toEqual(9);
+  });
+
+});
+
+describe('LSD subtraction', () => {
+  const lsd = new LSD({ pounds: -10, shillings: -1, pence: -14 })
+    .subtract({ pounds: -10 });
+
+  test('Values have been normalized', () => {
+    expect(lsd.pence).toEqual(-2);
+    expect(lsd.shillings).toEqual(-2);
+    expect(lsd.pounds).toEqual(0);
   });
 
 });
