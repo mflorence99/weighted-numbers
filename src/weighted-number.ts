@@ -49,6 +49,7 @@ export abstract class WeightedNumber {
       .map(unit => this[unit] || 0)
       .every(value => value === 0);
   }
+  
   // protected methods
 
   protected initialize(values: Values): void {
