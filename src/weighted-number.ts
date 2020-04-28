@@ -30,13 +30,12 @@ export abstract class WeightedNumber {
     if (this.isZero())
       return `0 ${this.units[0]}`;
     else {
-      const formatted: string[] = [];
-      this.units
+      const formatted = this.units
         .filter(unit => !!this[unit])
-        .forEach(unit => formatted.splice(0, 0, `${Math.abs(this[unit])} ${unit}`));
-      if (this.isNegative())
-        return `(${formatted.join(', ')})`;
-      else return formatted.join(', ');
+        .map(unit => `${Math.abs(this[unit])} ${unit}`)
+        .reverse()
+        .join(', ');
+      return this.isNegative() ? `(${formatted})` : formatted;
     }
   }
 
