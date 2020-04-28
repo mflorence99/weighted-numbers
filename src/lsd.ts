@@ -4,6 +4,13 @@ import { WeightedNumber } from './weighted-number';
  * Pounds, shillings, pence implementation
  */
 
+const FARTHINGS = {
+  '0.00': '',
+  '0.25': '¼',
+  '0.50': '½',
+  '0.75': '¾'
+};
+
 // NOTE: from micro to macro
 const UNITS = ['pence', 'shillings', 'pounds'] as const;
 
@@ -43,13 +50,17 @@ export class LSD extends WeightedNumber {
     else {
       const pounds = Math.abs(this.pounds);
       const shillings = Math.abs(this.shillings);
-      const pence = Math.abs(this.pence);
+      const pence = Math.trunc(Math.abs(this.pence));
+      // NOTE: a lot of trouble to show nearest farthing
+      const quarters = (Math.round(Math.abs(this.pence) * 4) / 4);
+      const ix = (quarters - Math.floor(quarters)).toFixed(2);
+      const farthings = FARTHINGS[ix];
       let formatted;
       // TODO: we could do much better than this
       // NOTE: "retail" format for "small" values like 32/6
       if (this.isPositive() && (pounds < 5))
-        formatted = `${(pounds * 20) + shillings}/${pence? pence : '-'}`;
-      else formatted = `£${pounds} ${shillings}s ${pence}d`;
+        formatted = `${(pounds * 20) + shillings}/${pence? pence : '-'}${farthings}`;
+      else formatted = `£${pounds} ${shillings}s ${pence}${farthings}d`;
       if (this.isNegative())
         return `(${formatted})`;
       else return formatted;

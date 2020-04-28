@@ -6,21 +6,21 @@ type Values = Record<string, number> | WeightedNumber;
 export abstract class WeightedNumber {
 
   // NOTE: micros gives the multiplier for each unit to get the micro unit
-  private micros: Record<string, number> = {};
+  private micros: Record<string, number> = { };
 
   abstract units: readonly string[];
   abstract weights: Readonly<Record<string, number>>;
 
   /** Add another weighted number of like type to this */
   add(another: Values): this {
-    const { a, b, micro } = this.precompare(another);
+    const { a, b, micro } = this.precompute(another);
     a[micro] += b[micro];
     return a.normalize() as any;
   }
 
   /** Divide this weighted number by a scalar quantity */
   divide(factor: number): this {
-    const { a, micro } = this.precompare();
+    const { a, micro } = this.precompute();
     a[micro] /= factor;
     return a.normalize() as any;
   }
@@ -42,19 +42,19 @@ export abstract class WeightedNumber {
 
   /** Is this weighted number equal to another of like type */
   isEqual(another: Values): boolean {
-    const { a, b, micro } = this.precompare(another);
+    const { a, b, micro } = this.precompute(another);
     return a[micro] === b[micro];
   }
 
   /** Is this weighted number greater than another of like type */
   isGreater(another: Values): boolean {
-    const { a, b, micro } = this.precompare(another);
+    const { a, b, micro } = this.precompute(another);
     return a[micro] > b[micro];
   }
 
   /** Is this weighted number less than another of like type */
   isLess(another: Values): boolean {
-    const { a, b, micro } = this.precompare(another);
+    const { a, b, micro } = this.precompute(another);
     return a[micro] < b[micro];
   }
 
@@ -79,14 +79,14 @@ export abstract class WeightedNumber {
 
   /** Multiply this weighted number by a scalar quantity */
   multiply(factor: number): this {
-    const { a, micro } = this.precompare();
+    const { a, micro } = this.precompute();
     a[micro] *= factor;
     return a.normalize() as any;
   }
 
   /** Subtract another weighted number of like type from this */
   subtract(another: Values): this {
-    const { a, b, micro } = this.precompare(another);
+    const { a, b, micro } = this.precompute(another);
     a[micro] -= b[micro];
     return a.normalize() as any;
   }
@@ -153,7 +153,7 @@ export abstract class WeightedNumber {
     return this.clone(normalized);
   }
 
-  private precompare(another: Values = { }): 
+  private precompute(another: Values = { }): 
       { a: WeightedNumber; b: WeightedNumber; micro: string } {
     const a = this.denormalize();
     const b = this.clone(another).denormalize();

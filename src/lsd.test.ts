@@ -26,6 +26,25 @@ describe('LSD construction', () => {
 
 });
 
+describe('LSD farthings', () => {
+  const lsd1 = new LSD({ pence: 15.2 });
+  const lsd2 = new LSD({ pence: 15.6 });
+  const lsd3 = new LSD({ pounds: 10, pence: 15.8 });
+
+  test('LSD is formatted with 1 farthing', () => {
+    expect(lsd1.format()).toEqual('1/3¼');
+  });
+
+  test('LSD is formatted with 1 halfpenny', () => {
+    expect(lsd2.format()).toEqual('1/3½');
+  });
+
+  test('LSD is formatted with 3 farthings', () => {
+    expect(lsd3.format()).toEqual('£10 1s 3¾d');
+  });
+
+});
+
 describe('LSD comparisons', () => {
   const lsd = new LSD({ pounds: 25.25, shillings: 42.5, pence: 99 });
 
