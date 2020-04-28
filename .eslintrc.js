@@ -22,6 +22,7 @@ const memberTypes = [
   'instance-field',
   'abstract-field',
 
+
   'field',
 
   // Constructors

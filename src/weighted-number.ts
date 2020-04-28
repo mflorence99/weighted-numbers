@@ -35,7 +35,7 @@ export abstract class WeightedNumber {
         .map(unit => `${Math.abs(this[unit])} ${unit}`)
         .reverse()
         .join(', ');
-      return this.isNegative() ? `(${formatted})` : formatted;
+      return this.isNegative()? `(${formatted})` : formatted;
     }
   }
 
