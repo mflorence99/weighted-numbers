@@ -6,7 +6,7 @@ type Values = Record<string, number> | WeightedNumber;
 export abstract class WeightedNumber {
 
   // NOTE: micros gives the multiplier for each unit to get the micro unit
-  private micros: Record<string, number> = { };
+  private micros: Record<string, number>;
 
   abstract units: readonly string[];
   abstract weights: Readonly<Record<string, number>>;
@@ -127,15 +127,16 @@ export abstract class WeightedNumber {
     let factor = 1;
     // using supplied weights, pre-compute multiplier to reduce
     // each unit to the most micro
-    this.units.forEach((unit, ix, units) => {
+    this.micros = this.units.reduce((acc, unit, ix, units) => {
       if (ix > 0) {
         const prior = units[ix - 1];
         const w = this.weights[prior] || 1;
         factor *= w;
-        this.micros[unit] = factor;
+        acc[unit] = factor;
       }
-      else this.micros[unit] = 1;
-    });
+      else acc[unit] = 1;
+      return acc;
+    }, { });
   }
 
   private normalize(values: Values = { }): this {
