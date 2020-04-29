@@ -127,7 +127,7 @@ export abstract class WeightedNumber {
     this.micros = this.units.reduce((acc, unit, ix, units) => {
       if (ix > 0) {
         const prior = units[ix - 1];
-        const w = this.weights[prior] || 1;
+        const w = this.weights[prior];
         factor *= w;
         acc[unit] = factor;
       }
