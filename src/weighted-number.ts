@@ -93,7 +93,7 @@ export abstract class WeightedNumber {
   // protected methods
 
   protected initialize(values: Values): void {
-    this.units.forEach(unit => this[unit] = values[unit] || 0);
+    Object.assign(this, this.valuesOf(values));
     this.makeMicros();
     this.denormalize(this);
     this.normalize(this);
@@ -102,10 +102,7 @@ export abstract class WeightedNumber {
   // private methods
 
   private clone(values: Values): this {
-    const obj = Object.assign(Object.create(this), this); 
-    // NOTE: supplied values may be sparse
-    this.units.forEach(unit => obj[unit] = values[unit] || 0);
-    return obj;
+    return Object.assign(Object.create(this), this, this.valuesOf(values)); 
   }
 
   private denormalize(values: Values = { }): this {
@@ -159,6 +156,14 @@ export abstract class WeightedNumber {
     const b = this.clone(another).denormalize();
     const micro = this.units[0];
     return { a, b, micro };
+  }
+
+  private valuesOf(obj: Values): Values {
+    // NOTE: extract the values which may be sparse
+    return this.units.reduce((acc, unit) => {
+      acc[unit] = obj[unit] || 0;
+      return acc;
+    }, { });
   }
 
 }
