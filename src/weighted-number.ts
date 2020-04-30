@@ -13,16 +13,16 @@ export abstract class WeightedNumber {
 
   /** Add another weighted number of like type to this */
   add(another: Values): this {
-    const { a, b, micro } = this.precompute(another);
-    a[micro] += b[micro];
-    return a.normalize() as any;
+    const { micro, my, your } = this.precompute(another);
+    my[micro] += your[micro];
+    return my.normalize() as this;
   }
 
-  /** Divide this weighted number by a scalar quantity */
+  /** Divide this weighted number by my scalar quantity */
   divide(factor: number): this {
-    const { a, micro } = this.precompute();
-    a[micro] /= factor;
-    return a.normalize() as any;
+    const { micro, my } = this.precompute();
+    my[micro] /= factor;
+    return my.normalize() as this;
   }
 
   /** Format values */
@@ -41,27 +41,25 @@ export abstract class WeightedNumber {
 
   /** Is this weighted number equal to another of like type */
   isEqual(another: Values): boolean {
-    const { a, b, micro } = this.precompute(another);
-    return a[micro] === b[micro];
+    const { micro, my, your } = this.precompute(another);
+    return my[micro] === your[micro];
   }
 
   /** Is this weighted number greater than another of like type */
   isGreater(another: Values): boolean {
-    const { a, b, micro } = this.precompute(another);
-    return a[micro] > b[micro];
+    const { micro, my, your } = this.precompute(another);
+    return my[micro] > your[micro];
   }
 
   /** Is this weighted number less than another of like type */
   isLess(another: Values): boolean {
-    const { a, b, micro } = this.precompute(another);
-    return a[micro] < b[micro];
+    const { micro, my, your } = this.precompute(another);
+    return my[micro] < your[micro];
   }
 
   /** Is this weighted number negative? */
   isNegative(): boolean {
-    return this.units
-      .map(unit => this[unit] || 0)
-      .some(value => value < 0);
+    return this.units.some(unit => this[unit] < 0);
   }
 
   /** Is this weighted number positive? */
@@ -71,23 +69,21 @@ export abstract class WeightedNumber {
 
   /** Is this weighted number zero? */
   isZero(): boolean {
-    return this.units
-      .map(unit => this[unit] || 0)
-      .every(value => value === 0);
+    return this.units.every(unit => this[unit] === 0);
   }
 
-  /** Multiply this weighted number by a scalar quantity */
+  /** Multiply this weighted number by my scalar quantity */
   multiply(factor: number): this {
-    const { a, micro } = this.precompute();
-    a[micro] *= factor;
-    return a.normalize() as any;
+    const { micro, my } = this.precompute();
+    my[micro] *= factor;
+    return my.normalize() as this;
   }
 
   /** Subtract another weighted number of like type from this */
   subtract(another: Values): this {
-    const { a, b, micro } = this.precompute(another);
-    a[micro] -= b[micro];
-    return a.normalize() as any;
+    const { micro, my, your } = this.precompute(another);
+    my[micro] -= your[micro];
+    return my.normalize() as this;
   }
 
   // protected methods
@@ -107,7 +103,7 @@ export abstract class WeightedNumber {
 
   private denormalize(values: Values = { }): this {
     // using the pre-computed "micros" reduce to the most micro unit
-    // NOTE: provision of "values" enables mutability
+    // NOTE: provision of "values" enables mutability during construction
     const denormalized = this.units.reduce((acc, unit, ix) => {
       const v = (this[unit] || 0) * this.micros[unit];
       if (ix > 0) {
@@ -139,7 +135,7 @@ export abstract class WeightedNumber {
   private normalize(values: Values = { }): this {
     let c = 0;
     // using the supplied weights, normalize units from micro to macro
-    // NOTE: provision of "values" enables mutability
+    // NOTE: provision of "values" enables mutability during construction
     const normalized = this.units.reduce((acc, unit) => {
       const v = this[unit] || 0;
       const w = this.weights[unit];
@@ -151,11 +147,11 @@ export abstract class WeightedNumber {
   }
 
   private precompute(another: Values = { }): 
-      { a: WeightedNumber; b: WeightedNumber; micro: string } {
-    const a = this.denormalize();
-    const b = this.clone(another).denormalize();
+    { micro: string; my: WeightedNumber; your: WeightedNumber } {
+    const my = this.denormalize();
+    const your = this.clone(another).denormalize();
     const micro = this.units[0];
-    return { a, b, micro };
+    return { micro, my, your };
   }
 
   private valuesOf(obj: Values): Values {

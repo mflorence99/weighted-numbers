@@ -55,9 +55,9 @@ export class LSD extends WeightedNumber {
       const quarters = (Math.round(Math.abs(this.pence) * 4) / 4);
       const ix = (quarters - Math.floor(quarters)).toFixed(2);
       const farthings = FARTHINGS[ix];
-      let formatted;
       // TODO: we could do much better than this
       // NOTE: "retail" format for "small" values like 32/6
+      let formatted;
       if (this.isPositive() && (pounds < 5))
         formatted = `${(pounds * 20) + shillings}/${pence || '-'}${farthings}`;
       else formatted = `£${pounds} ${shillings}s ${pence}${farthings}d`;
