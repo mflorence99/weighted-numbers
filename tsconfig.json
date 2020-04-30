@@ -2,8 +2,9 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "lib": [
-      "es2019"
+      "es2020"
     ],
+    "module": "ES2020",
     "noEmitOnError": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -11,11 +12,14 @@
     "outDir": "./dist",
     "pretty": true,
     "rootDir": "./src",
-    "target": "es2019",
+    "target": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ]
   },
+  "exclude": [
+    "./src/**/*.test.ts"
+  ],
   "include": [
     "./src/**/*.ts"
   ]

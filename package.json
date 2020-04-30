@@ -23,6 +23,7 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules && rm package-lock.json && npm install",
+    "compile": "tsc --typeRoots []",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg"
   },
