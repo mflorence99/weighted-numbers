@@ -26,13 +26,13 @@ type Weights = {
 
 export class LSD extends WeightedNumber {
 
-  pence: number;
-  pounds: number;
-  shillings: number;
+  readonly pence: number;
+  readonly pounds: number;
+  readonly shillings: number;
 
-  units = UNITS;
+  readonly units = UNITS;
 
-  weights: Readonly<Weights> = {
+  readonly weights: Readonly<Weights> = {
     pence: 12,
     shillings: 20
   };

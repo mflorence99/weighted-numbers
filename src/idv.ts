@@ -19,16 +19,16 @@ type Weights = {
 
 export class IDV extends WeightedNumber {
 
-  bushels: number;
-  chaldrons: number;
-  gallons: number;
-  pecks: number;
-  pints: number;
-  quarts: number;
+  readonly bushels: number;
+  readonly chaldrons: number;
+  readonly gallons: number;
+  readonly pecks: number;
+  readonly pints: number;
+  readonly quarts: number;
 
-  units = UNITS;
+  readonly units = UNITS;
 
-  weights: Readonly<Weights> = {
+  readonly weights: Readonly<Weights> = {
     bushels: 36,
     gallons: 2,
     pecks: 4,
