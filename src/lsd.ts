@@ -61,7 +61,7 @@ export class LSD extends WeightedNumber {
       if (this.isPositive() && (pounds < 5))
         formatted = `${(pounds * 20) + shillings}/${pence || '-'}${farthings}`;
       else formatted = `£${pounds} ${shillings}s ${pence}${farthings}d`;
-      return this.isNegative()? `(${formatted})` : formatted;
+      return this.isNegative() ? `(${formatted})` : formatted;
     }
   }
 

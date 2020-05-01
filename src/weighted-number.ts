@@ -35,7 +35,7 @@ export abstract class WeightedNumber {
         .map(unit => `${Math.abs(this[unit])} ${unit}`)
         .reverse()
         .join(', ');
-      return this.isNegative()? `(${formatted})` : formatted;
+      return this.isNegative() ? `(${formatted})` : formatted;
     }
   }
 
@@ -109,8 +109,7 @@ export abstract class WeightedNumber {
       if (ix > 0) {
         acc[unit] = 0;
         acc[this.units[0]] += v;
-      }
-      else acc[unit] = this[unit];
+      } else acc[unit] = this[unit];
       return acc;
     }, values);
     return this.clone(denormalized);
@@ -126,8 +125,7 @@ export abstract class WeightedNumber {
         const w = this.weights[prior];
         factor *= w;
         acc[unit] = factor;
-      }
-      else acc[unit] = 1;
+      } else acc[unit] = +1;
       return acc;
     }, { });
   }
@@ -139,15 +137,14 @@ export abstract class WeightedNumber {
     const normalized = this.units.reduce((acc, unit) => {
       const v = this[unit] || 0;
       const w = this.weights[unit];
-      acc[unit] = w? (v + c) % w : (v + c);
-      c = w? Math.trunc((v + c) / w) : c;
+      acc[unit] = w ? (v + c) % w : (v + c);
+      c = w ? Math.trunc((v + c) / w) : c;
       return acc;
     }, values);
     return this.clone(normalized);
   }
 
-  private precompute(another: Values = { }): 
-    { micro: string; my: WeightedNumber; your: WeightedNumber } {
+  private precompute(another: Values = { }): { micro: string; my: WeightedNumber; your: WeightedNumber } {
     const my = this.denormalize();
     const your = this.clone(another).denormalize();
     const micro = this.units[0];
