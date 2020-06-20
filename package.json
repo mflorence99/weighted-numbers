@@ -7,6 +7,7 @@
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint": "^6.8.0",
+    "eslint-plugin-ember": "^8.7.0",
     "jest": "^25.4.0",
     "make-coverage-badge": "^1.2.0",
     "ts-jest": "^25.4.0",
@@ -24,6 +25,7 @@
     },
     "extends": [
       "eslint:recommended",
+      "plugin:ember/recommended",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -39,7 +41,8 @@
       "sourceType": "module"
     },
     "plugins": [
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "ember"
     ],
     "reportUnusedDisableDirectives": true,
     "rules": {
@@ -198,6 +201,13 @@
       "spaced-comment": [
         "error",
         "always"
+      ],
+      "ember/no-attrs-in-components": [
+        "warn"
+      ],
+      "ember/computed-property-getters": [
+        "warn",
+        "always-with-setter"
       ]
     }
   },
@@ -220,7 +230,7 @@
       "**/?(*.)+(spec|test).+(ts|tsx|js)"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
+      "^.+.(ts|tsx)$": "ts-jest"
     }
   },
   "license": "MIT",
