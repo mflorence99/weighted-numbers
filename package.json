@@ -4,10 +4,10 @@
   "devDependencies": {
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.2",
-    "@typescript-eslint/eslint-plugin": "^2.29.0",
-    "@typescript-eslint/parser": "^2.29.0",
+    "@typescript-eslint/eslint-plugin": "^3.6",
+    "@typescript-eslint/parser": "^3.6",
     "eslint": "^6.8.0",
-    "eslint-plugin-ember": "^8.7.0",
+    "eslint-plugin-import-splitnsort": "latest",
     "jest": "^25.4.0",
     "make-coverage-badge": "^1.2.0",
     "ts-jest": "^25.4.0",
@@ -25,7 +25,7 @@
     },
     "extends": [
       "eslint:recommended",
-      "plugin:ember/recommended",
+      "plugin:import-splitnsort/recommended",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -42,7 +42,7 @@
     },
     "plugins": [
       "@typescript-eslint",
-      "ember"
+      "import-splitnsort"
     ],
     "reportUnusedDisableDirectives": true,
     "rules": {
@@ -201,13 +201,6 @@
       "spaced-comment": [
         "error",
         "always"
-      ],
-      "ember/no-attrs-in-components": [
-        "warn"
-      ],
-      "ember/computed-property-getters": [
-        "warn",
-        "always-with-setter"
       ]
     }
   },
@@ -244,5 +237,6 @@
     "lint": "eslint '*/**/*.ts' --fix",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg"
   },
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "dependencies": {}
 }
