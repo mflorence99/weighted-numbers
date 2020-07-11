@@ -2,16 +2,16 @@
   "author": "Mark Florence",
   "description": "TypeScript implementation of bolazec's Go code",
   "devDependencies": {
-    "@types/jest": "^25.2.1",
-    "@types/node": "^13.13.2",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^13.13.14",
     "@typescript-eslint/eslint-plugin": "^3.6",
     "@typescript-eslint/parser": "^3.6",
     "eslint": "^6.8.0",
-    "eslint-plugin-import-splitnsort": "latest",
-    "jest": "^25.4.0",
+    "eslint-plugin-import-splitnsort": "^0.1.3",
+    "jest": "^25.5.4",
     "make-coverage-badge": "^1.2.0",
-    "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3"
+    "ts-jest": "^25.5.1",
+    "typescript": "^3.9.6"
   },
   "engines": {
     "node": ">= 12"
