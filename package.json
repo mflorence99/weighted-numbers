@@ -38,7 +38,10 @@
     "parserOptions": {
       "ecmaVersion": 2018,
       "project": "./tsconfig.json",
-      "sourceType": "module"
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "regexUFlag": true
+      }
     },
     "plugins": [
       "@typescript-eslint",
